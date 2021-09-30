@@ -26,7 +26,7 @@ export const Container = styled.div`
             line-height: 3.375rem;
         }
 
-        &.highlighted-background {
+        &.highlight-background {
             background: var(--green-color);
             color: var(--shape-principal-color);
         }
