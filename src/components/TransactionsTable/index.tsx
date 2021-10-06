@@ -8,7 +8,11 @@ export interface Transaction {
     amount: number;
     type: 'deposit' | 'withdrawal';
     category: string;
-    createAt: Date;
+    createdAt: Date;
+}
+
+interface ResponseTransaction {
+    transactions: Transaction[];
 }
 
 export function TransactionsTable() {
@@ -16,8 +20,8 @@ export function TransactionsTable() {
     const [transactions, setTransactions] = useState<Transaction[]>([])
 
     useEffect(() => {
-        api.get<Transaction[]>('http://localhost:3000/api/transactions')
-            .then(response => setTransactions(response.data));
+        api.get<ResponseTransaction>('http://localhost:3000/api/transactions')
+            .then(response => setTransactions(response.data.transactions));
     }, [])
 
     return(
@@ -36,9 +40,18 @@ export function TransactionsTable() {
                         return(
                             <tr key={transaction.id}>
                                 <td>{transaction.title}</td>
-                                <td className={transaction.type === 'deposit' ? 'deposit' : 'withdraw'}>R$ {transaction.amount}</td>
+                                <td className={transaction.type}>
+                                    {new Intl.NumberFormat('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    }).format(transaction.amount)}
+                                </td>
                                 <td>{transaction.category}</td>
-                                <td>{transaction.createAt}</td>
+                                <td>
+                                    {new Intl.DateTimeFormat('pt-BR').format(
+                                        new Date(transaction.createdAt)
+                                    )}
+                                </td>
                             </tr>
                         )
                     })}
