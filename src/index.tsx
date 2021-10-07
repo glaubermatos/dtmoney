@@ -17,7 +17,7 @@ createServer({
 					id: 1,
 					title: 'Desenvolvimento de sistema de upload de fotos',
 					category: 'Freelancer',
-					amount: '1500',
+					amount: 1500,
 					type: 'deposit',
 					createdAt: new Date('2021-08-14 09:10:05')
 				},
@@ -25,7 +25,7 @@ createServer({
 					id: 2,
 					title: 'Aluguel de casa',
 					category: 'Casa',
-					amount: '500',
+					amount: 500,
 					type: 'withdraw',
 					createdAt: new Date('2021-08-15 14:30:05')
 				}
@@ -43,7 +43,7 @@ createServer({
     this.post('/transactions', (schema, request) => {
       const data = JSON.parse(request.requestBody)
 
-      return schema.create('transaction', data)
+      return schema.create('transaction', {...data, createdAt: new Date()})
     })
   }
 })
